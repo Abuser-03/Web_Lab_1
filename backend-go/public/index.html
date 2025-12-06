@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Manager - Менеджер Ссылок</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#home" onclick="showSection('home')">
+                <i class="bi bi-link-45deg"></i> Link Manager
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home" onclick="showSection('home')">
+                            <i class="bi bi-house"></i> Главная
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#links" onclick="showSection('links')">
+                            <i class="bi bi-list-ul"></i> Все ссылки
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api-docs/index.html" target="_blank">
+                            <i class="bi bi-book"></i> API Docs
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главная секция -->
+    <div id="home-section" class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 mb-4">
+                    <i class="bi bi-collection text-primary"></i>
+                    Менеджер Ссылок
+                </h1>
+                <p class="lead mb-4">
+                    REST API приложение для управления ссылками на Go с Onion Architecture
+                </p>
+
+                <!-- Статистика -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Статистика</h5>
+                        <div class="row mt-3" id="stats">
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <i class="bi bi-link-45deg text-primary fs-1"></i>
+                                    <h3 id="totalLinks" class="mt-2">0</h3>
+                                    <p class="text-muted">Всего ссылок</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <i class="bi bi-database text-success fs-1"></i>
+                                    <h3 id="maxLinks">50</h3>
+                                    <p class="text-muted">Максимум</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <i class="bi bi-plus-circle text-info fs-1"></i>
+                                    <h3 id="remainingSlots">50</h3>
+                                    <p class="text-muted">Осталось</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <i class="bi bi-percent text-warning fs-1"></i>
+                                    <h3 id="percentageFull">0%</h3>
+                                    <p class="text-muted">Заполнено</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Быстрые действия -->
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3">
+                        <button class="btn btn-primary btn-lg w-100" onclick="showSection('links')">
+                            <i class="bi bi-list-ul"></i> Просмотреть все ссылки
+                        </button>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <button class="btn btn-success btn-lg w-100" onclick="showAddModal()">
+                            <i class="bi bi-plus-circle"></i> Добавить новую ссылку
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Архитектура -->
+                <div class="card shadow-sm mt-5">
+                    <div class="card-body text-start">
+                        <h5 class="card-title">
+                            <i class="bi bi-diagram-3"></i> Архитектура приложения
+                        </h5>
+                        <p class="card-text">
+                            Приложение построено на принципах <strong>Onion Architecture (Луковая архитектура)</strong> на Go:
+                        </p>
+                        <ul>
+                            <li><strong>Domain Layer</strong> - бизнес-логика и сущности</li>
+                            <li><strong>Application Layer</strong> - use cases и сценарии использования</li>
+                            <li><strong>Infrastructure Layer</strong> - thread-safe хранилище данных в памяти</li>
+                            <li><strong>Presentation Layer</strong> - REST API и фронтенд</li>
+                        </ul>
+                        <p class="card-text">
+                            <strong>Особенности:</strong> In-Memory хранилище (максимум 50 записей),
+                            Dependency Injection, REST принципы, Swagger документация, Go + Gin
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция всех ссылок -->
+    <div id="links-section" class="container mt-5" style="display: none;">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="bi bi-list-ul"></i> Все ссылки</h2>
+                    <button class="btn btn-success" onclick="showAddModal()">
+                        <i class="bi bi-plus-circle"></i> Добавить ссылку
+                    </button>
+                </div>
+
+                <!-- Контейнер для алертов -->
+                <div id="alertContainer"></div>
+
+                <!-- Список ссылок -->
+                <div id="linksContainer" class="row">
+                    <!-- Ссылки будут загружены через JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления ссылки -->
+    <div class="modal fade" id="addLinkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-plus-circle"></i> Добавить новую ссылку
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addLinkForm">
+                        <div class="mb-3">
+                            <label for="addTitle" class="form-label">Название *</label>
+                            <input type="text" class="form-control" id="addTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addUrl" class="form-label">URL *</label>
+                            <input type="url" class="form-control" id="addUrl" required
+                                   placeholder="https://example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="addDescription" class="form-label">Описание</label>
+                            <textarea class="form-control" id="addDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-success" onclick="addLink()">
+                        <i class="bi bi-check-circle"></i> Добавить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования ссылки -->
+    <div class="modal fade" id="editLinkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-pencil-square"></i> Редактировать ссылку
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editLinkForm">
+                        <input type="hidden" id="editLinkId">
+                        <div class="mb-3">
+                            <label for="editTitle" class="form-label">Название *</label>
+                            <input type="text" class="form-control" id="editTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editUrl" class="form-label">URL *</label>
+                            <input type="url" class="form-control" id="editUrl" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDescription" class="form-label">Описание</label>
+                            <textarea class="form-control" id="editDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" onclick="updateLink()">
+                        <i class="bi bi-check-circle"></i> Сохранить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light mt-5 py-4">
+        <div class="container text-center">
+            <p class="text-muted mb-0">Link Manager &copy; 2025 | Go + Onion Architecture</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let addLinkModalInstance;
+        let editLinkModalInstance;
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            addLinkModalInstance = new bootstrap.Modal(document.getElementById('addLinkModal'));
+            editLinkModalInstance = new bootstrap.Modal(document.getElementById('editLinkModal'));
+
+            loadStatistics();
+
+            // Загрузка ссылок при первом открытии секции
+            const hash = window.location.hash;
+            if (hash === '#links') {
+                showSection('links');
+            }
+        });
+
+        // Переключение между секциями
+        function showSection(section) {
+            document.getElementById('home-section').style.display = 'none';
+            document.getElementById('links-section').style.display = 'none';
+
+            if (section === 'home') {
+                document.getElementById('home-section').style.display = 'block';
+                loadStatistics();
+            } else if (section === 'links') {
+                document.getElementById('links-section').style.display = 'block';
+                loadLinks();
+            }
+
+            window.location.hash = section;
+        }
+
+        // Загрузка статистики
+        async function loadStatistics() {
+            try {
+                const response = await API.getStatistics();
+                if (response.success) {
+                    const stats = response.data;
+                    document.getElementById('totalLinks').textContent = stats.totalLinks;
+                    document.getElementById('maxLinks').textContent = stats.maxLinks;
+                    document.getElementById('remainingSlots').textContent = stats.remainingSlots;
+                    document.getElementById('percentageFull').textContent = stats.percentageFull + '%';
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
+        }
+
+        // Загрузка всех ссылок
+        async function loadLinks() {
+            try {
+                const response = await API.getAllLinks();
+                const container = document.getElementById('linksContainer');
+
+                if (response.success && response.data && response.data.length > 0) {
+                    container.innerHTML = response.data.map(link => `
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-link-45deg text-primary"></i>
+                                        ${escapeHtml(link.title)}
+                                    </h5>
+                                    <p class="card-text text-muted small mb-2">
+                                        <a href="${escapeHtml(link.url)}" target="_blank" class="text-decoration-none">
+                                            ${escapeHtml(link.url)}
+                                        </a>
+                                    </p>
+                                    ${link.description ? `<p class="card-text">${escapeHtml(link.description)}</p>` : ''}
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> ${UI.formatDate(link.createdAt)}
+                                        </small>
+                                    </p>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-primary" onclick="showEditModal('${link.id}')">
+                                            <i class="bi bi-pencil"></i> Редактировать
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteLink('${link.id}')">
+                                            <i class="bi bi-trash"></i> Удалить
+                                        </button>
+                                        <a href="${escapeHtml(link.url)}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-box-arrow-up-right"></i> Открыть
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <i class="bi bi-info-circle"></i>
+                                Нет сохраненных ссылок. Добавьте первую ссылку!
+                            </div>
+                        </div>
+                    `;
+                }
+
+                loadStatistics();
+            } catch (error) {
+                console.error('Ошибка загрузки ссылок:', error);
+                UI.showAlert('Ошибка загрузки ссылок', 'danger');
+            }
+        }
+
+        // Показать модальное окно добавления
+        function showAddModal() {
+            document.getElementById('addLinkForm').reset();
+            addLinkModalInstance.show();
+        }
+
+        // Добавить новую ссылку
+        async function addLink() {
+            const title = document.getElementById('addTitle').value.trim();
+            const url = document.getElementById('addUrl').value.trim();
+            const description = document.getElementById('addDescription').value.trim();
+
+            if (!title || !url) {
+                UI.showAlert('Заполните обязательные поля', 'warning');
+                return;
+            }
+
+            try {
+                const response = await API.createLink({ title, url, description });
+
+                if (response.success) {
+                    UI.showAlert('Ссылка успешно добавлена!', 'success');
+                    addLinkModalInstance.hide();
+                    document.getElementById('addLinkForm').reset();
+                    loadLinks();
+                } else {
+                    UI.showAlert(response.message || 'Ошибка добавления ссылки', 'danger');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                UI.showAlert('Ошибка добавления ссылки', 'danger');
+            }
+        }
+
+        // Показать модальное окно редактирования
+        async function showEditModal(id) {
+            try {
+                const response = await API.getLinkById(id);
+
+                if (response.success && response.data) {
+                    const link = response.data;
+                    document.getElementById('editLinkId').value = link.id;
+                    document.getElementById('editTitle').value = link.title;
+                    document.getElementById('editUrl').value = link.url;
+                    document.getElementById('editDescription').value = link.description || '';
+                    editLinkModalInstance.show();
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                UI.showAlert('Ошибка загрузки данных ссылки', 'danger');
+            }
+        }
+
+        // Обновить ссылку
+        async function updateLink() {
+            const id = document.getElementById('editLinkId').value;
+            const title = document.getElementById('editTitle').value.trim();
+            const url = document.getElementById('editUrl').value.trim();
+            const description = document.getElementById('editDescription').value.trim();
+
+            if (!title || !url) {
+                UI.showAlert('Заполните обязательные поля', 'warning');
+                return;
+            }
+
+            try {
+                const response = await API.updateLink(id, { title, url, description });
+
+                if (response.success) {
+                    UI.showAlert('Ссылка успешно обновлена!', 'success');
+                    editLinkModalInstance.hide();
+                    loadLinks();
+                } else {
+                    UI.showAlert(response.message || 'Ошибка обновления ссылки', 'danger');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                UI.showAlert('Ошибка обновления ссылки', 'danger');
+            }
+        }
+
+        // Удалить ссылку
+        async function deleteLink(id) {
+            if (!confirm('Вы уверены, что хотите удалить эту ссылку?')) {
+                return;
+            }
+
+            try {
+                const response = await API.deleteLink(id);
+
+                if (response.success) {
+                    UI.showAlert('Ссылка успешно удалена!', 'success');
+                    loadLinks();
+                } else {
+                    UI.showAlert(response.message || 'Ошибка удаления ссылки', 'danger');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                UI.showAlert('Ошибка удаления ссылки', 'danger');
+            }
+        }
+
+        // Экранирование HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

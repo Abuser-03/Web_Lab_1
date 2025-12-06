@@ -1,0 +1,138 @@
+syntax = "proto3";
+
+package linkmanager;
+
+option go_package = "backend-go-postgres/proto/pb";
+
+// LinkService - сервис для управления ссылками
+service LinkService {
+  // Создать ссылку
+  rpc CreateLink(CreateLinkRequest) returns (LinkResponse);
+
+  // Получить все ссылки пользователя
+  rpc GetLinks(GetLinksRequest) returns (GetLinksResponse);
+
+  // Получить ссылку по ID
+  rpc GetLink(GetLinkRequest) returns (LinkResponse);
+
+  // Обновить ссылку
+  rpc UpdateLink(UpdateLinkRequest) returns (LinkResponse);
+
+  // Удалить ссылку
+  rpc DeleteLink(DeleteLinkRequest) returns (DeleteLinkResponse);
+
+  // Получить статистику
+  rpc GetStatistics(GetStatisticsRequest) returns (StatisticsResponse);
+}
+
+// AuthService - сервис аутентификации
+service AuthService {
+  // Регистрация
+  rpc Register(RegisterRequest) returns (AuthResponse);
+
+  // Вход
+  rpc Login(LoginRequest) returns (AuthResponse);
+
+  // Получить профиль
+  rpc GetProfile(GetProfileRequest) returns (UserResponse);
+}
+
+// Сообщения для LinkService
+
+message Link {
+  uint32 id = 1;
+  uint32 user_id = 2;
+  string title = 3;
+  string url = 4;
+  string description = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message CreateLinkRequest {
+  string title = 1;
+  string url = 2;
+  string description = 3;
+}
+
+message GetLinksRequest {
+  // Пустой запрос, userID берется из метаданных
+}
+
+message GetLinksResponse {
+  repeated Link links = 1;
+  int32 count = 2;
+}
+
+message GetLinkRequest {
+  uint32 id = 1;
+}
+
+message UpdateLinkRequest {
+  uint32 id = 1;
+  string title = 2;
+  string url = 3;
+  string description = 4;
+}
+
+message DeleteLinkRequest {
+  uint32 id = 1;
+}
+
+message DeleteLinkResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message LinkResponse {
+  bool success = 1;
+  Link link = 2;
+  string message = 3;
+}
+
+message GetStatisticsRequest {
+  // Пустой запрос, userID берется из метаданных
+}
+
+message StatisticsResponse {
+  int32 total_links = 1;
+}
+
+// Сообщения для AuthService
+
+message User {
+  uint32 id = 1;
+  string username = 2;
+  string email = 3;
+  string role = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  bool success = 1;
+  User user = 2;
+  string token = 3;
+  string message = 4;
+}
+
+message GetProfileRequest {
+  // Пустой запрос, userID берется из метаданных
+}
+
+message UserResponse {
+  bool success = 1;
+  User user = 2;
+  string message = 3;
+}

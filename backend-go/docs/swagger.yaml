@@ -1,0 +1,172 @@
+basePath: /
+definitions:
+  dto.CreateLinkRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+      url:
+        type: string
+    required:
+    - title
+    - url
+    type: object
+  dto.Response:
+    properties:
+      count:
+        type: integer
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  dto.UpdateLinkRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+      url:
+        type: string
+    required:
+    - title
+    - url
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: support@linkmanager.com
+    name: API Support
+  description: REST API для управления ссылками (Onion Architecture) на Go
+  title: Link Manager API
+  version: "1.0"
+paths:
+  /api/links:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Получить все ссылки
+      tags:
+      - Links
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Link data
+        in: body
+        name: link
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLinkRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Создать новую ссылку
+      tags:
+      - Links
+  /api/links/{id}:
+    delete:
+      parameters:
+      - description: Link ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Удалить ссылку
+      tags:
+      - Links
+    get:
+      parameters:
+      - description: Link ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Получить ссылку по ID
+      tags:
+      - Links
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Link ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Link data
+        in: body
+        name: link
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLinkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Обновить ссылку
+      tags:
+      - Links
+  /api/links/stats:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Получить статистику
+      tags:
+      - Links
+swagger: "2.0"

@@ -1,0 +1,38 @@
+# Исключаем из Docker build
+.git
+.gitignore
+README.md
+.env
+.env.local
+
+# Данные
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Временные файлы
+tmp/
+temp/
+*.log

@@ -1,0 +1,161 @@
+/* Общие стили */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+.container {
+    flex: 1;
+}
+
+/* Статистика */
+.stat-item {
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-item h3 {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Карточки */
+.card {
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Кнопки */
+.btn {
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Таблица ссылок */
+.link-item {
+    padding: 15px;
+    border-left: 4px solid #0d6efd;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: all 0.2s;
+}
+
+.link-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateX(5px);
+}
+
+.link-title {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 8px;
+}
+
+.link-url {
+    color: #0d6efd;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.link-url:hover {
+    text-decoration: underline;
+}
+
+.link-description {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+.link-meta {
+    font-size: 0.85rem;
+    color: #adb5bd;
+    margin-top: 8px;
+}
+
+/* Формы */
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Алерты */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+/* Анимация загрузки */
+.loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Навигация */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .stat-item {
+        margin-bottom: 20px;
+    }
+
+    .link-item {
+        padding: 12px;
+    }
+}
