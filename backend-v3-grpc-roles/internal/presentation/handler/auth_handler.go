@@ -62,6 +62,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 			ID:       user.ID,
 			Username: user.Username,
 			Email:    user.Email,
+			Role:     user.Role,
 		},
 		Token:   token,
 		Message: "User registered successfully",
@@ -111,6 +112,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 			ID:       user.ID,
 			Username: user.Username,
 			Email:    user.Email,
+			Role:     user.Role,
 		},
 		Token:   token,
 		Message: "Login successful",
@@ -150,6 +152,7 @@ func (h *AuthHandler) GetProfile(c *gin.Context) {
 			ID:       user.ID,
 			Username: user.Username,
 			Email:    user.Email,
+			Role:     user.Role,
 		},
 		Message: "Profile retrieved successfully",
 	})
