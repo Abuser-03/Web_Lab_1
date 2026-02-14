@@ -26,4 +26,5 @@ type UserData struct {
 	ID       uint   `json:"id" example:"1"`
 	Username string `json:"username" example:"johndoe"`
 	Email    string `json:"email" example:"john@example.com"`
+	Role     string `json:"role" example:"user"`
 }
